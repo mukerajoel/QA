@@ -14,3 +14,11 @@ toggler &&
             document.querySelector("body").setAttribute("aria-theme", "dark");
         }
     });
+
+
+
+$(document).ready(function() {
+    $("#formButton").click(function() {
+    $("#form1").toggle();
+    });
+});

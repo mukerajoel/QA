@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -33,10 +34,23 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function comment(Request $request)
     {
-        //
+        $this->validate($request, [
+            'question_id' => ['integer', 'required', 'exists:questions,id,deleted_at,NULL'],
+            'comment' => ['string', 'required'],
+        ]);
+
+
+        $comment = new Comment;
+        $comment->comment = $request->input('comment');
+        $comment->user_id = Auth::id();
+        $comment->question_id = $request->input('question_id');
+        $comment->save();
+
+        return redirect()->route('q.show',  $request->input('question_id'));
     }
+    
 
     /**
      * Display the specified resource.

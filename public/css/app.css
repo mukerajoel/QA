@@ -11293,7 +11293,7 @@ body {
 }
 body[aria-theme=dark] {
   background-color: #323741;
-  color: #fff;
+  color: #212529;
 }
 
 .app-nav {
@@ -11369,4 +11369,8 @@ body[aria-theme=dark] {
   -webkit-line-clamp: 3;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+.comment {
+  display: none;
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -57,6 +58,34 @@ class QuestionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function comment(Request $request)
+    {
+        $this->validate($request, [
+            'question_id' => ['integer', 'required', 'exists:questions,id,deleted_at,NULL'],
+            'comment' => ['string', 'required'],
+        ]);
+
+
+        $comment = new Comment;
+        $comment->comment = $request->input('comment');
+        $comment->user_id = Auth::id();
+        $comment->question_id = $request->input('question_id');
+        $Comment->save();
+
+        return redirect()->route('q.show',  $request->input('question_id'));
+    }
+
+     /**
+     * Answer a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+
+
+     //answer controller
+
+
     public function answer(Request $request)
     {
         $this->validate($request, [
@@ -80,21 +109,45 @@ class QuestionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function answerId(Request $request, $id)
-    {
-        $this->validate($request, [
-            'description' => ['string', 'required'],
-        ]);
+    // public function answerId(Request $request, $id)
+    // {
+    //     $this->validate($request, [
+    //         'description' => ['string', 'required'],
+    //     ]);
 
 
-        $question = new Question;
-        $question->description = $request->input('description');
-        $question->user_id = Auth::id();
-        $question->question_id = $id;
-        $question->save();
+    //     $question = new Question;
+    //     $question->description = $request->input('description');
+    //     $question->user_id = Auth::id();
+    //     $question->question_id = $id;
+    //     $question->save();
 
-        return redirect()->route('q.show', $id);
-    }
+    //     return redirect()->route('q.show', $id);
+    // }
+
+
+    /**
+     * Comment on a created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    // public function commentId(Request $request, $id)
+    // {
+    //     $this->validate($request, [
+    //         'text' => ['string', 'required'],
+    //     ]);
+
+
+    //     $comment = new Comment;
+    //     $comment->text = $request->input('comment');
+    //     $comment->user_id = Auth::id(); 
+    //     $comment->question_id = $id;
+    //     $comment->save();
+
+    //     return redirect()->route('q.show', $id);
+    // }
+
 
     /**
      * Display the specified resource.
@@ -106,7 +159,10 @@ class QuestionController extends Controller
     {
         $question = Question::find($id);
 
-        return view('questions.show', compact('question'));
+        $comments = Comment::where('question_id', $id)->get();
+
+        return view('questions.show', ['question' => $question, 'comments'=>$comments]);
+
     }
 
     /**

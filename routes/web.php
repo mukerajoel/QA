@@ -25,6 +25,11 @@ Route::middleware('auth')->prefix('questions')->name('q.')->group(function () {
     Route::put('/{id}', [$qc, 'update'])->name('update');
     Route::delete('/{id}', [$qc, 'destroy'])->name('destroy');
     Route::post('answer', [$qc, 'answer'])->name('answer');
-    Route::post('/{id}/answer', [$qc, 'answerId'])->name('answer.id');
+  //  Route::post('/{id}/answer', [$qc, 'answerId'])->name('answer.id');
+   // Route::post('comment', [$qc, 'comment'])->name('comment');
+   // Route::post('/{id}/comment', [$qc, 'commentId'])->name('comment.id');
+
 });
 Route::get('questions/{id}', [$qc, 'show'])->name('q.show');
+
+Route::post('comment', [App\Http\Controllers\CommentController::class, 'comment'])->name('comment');

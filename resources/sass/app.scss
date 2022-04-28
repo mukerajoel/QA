@@ -14,7 +14,7 @@ body {
 
     &[aria-theme="dark"] {
         background-color: $bg-dark;
-        color: $white;
+        color: $dark;
         $theme: "dark";
         $body-bg: $bg-dark;
         $body-text: $white;
@@ -110,4 +110,10 @@ body {
             overflow: hidden;
         }
     }
+}
+
+
+
+.comment{
+    display: none;
 }
