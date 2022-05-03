@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Model\QuestionReaction;
 
 class Question extends Model
 {
@@ -30,5 +31,9 @@ class Question extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function reactions(){
+        return $this->hasMany(QuestionReaction::class);
     }
 }

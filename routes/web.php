@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 $qc = QuestionController::class;
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::get('/', [App\Http\Controllers\HomeController::class, 'store'])->name('r.store');
 Route::middleware('auth')->prefix('questions')->name('q.')->group(function () {
     $qc = QuestionController::class;
     Route::get('/', [$qc, 'create'])->name('create');
@@ -31,5 +32,5 @@ Route::middleware('auth')->prefix('questions')->name('q.')->group(function () {
 
 });
 Route::get('questions/{id}', [$qc, 'show'])->name('q.show');
-
+Route::post('/reactions', [App\Http\Controllers\ReactionController::class, 'store'])->name('r.store');
 Route::post('comment', [App\Http\Controllers\CommentController::class, 'comment'])->name('comment');

@@ -30,12 +30,25 @@ class ReactionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $request, $id
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'question_id' => ['integer', 'required', 'exists:questions,id,deleted_at,NULL'],
+            'tally' => ['string'],
+        ]);
+
+        error_log($request->input('tally'));
+
+        $reaction = new Reaction;
+        $reaction->tally = $request->input('tally');
+        $reaction->user_id = Auth::id()->nullable();
+        $reaction->question_id = $request->input('question_id');
+        $reaction->save();
+
+        return redirect()->route('q.show',  $request->input('question_id'));
     }
 
     /**
